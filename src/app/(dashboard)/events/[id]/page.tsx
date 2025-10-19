@@ -1,4 +1,3 @@
-import { api } from '@/lib/api-client';
 import { Event } from '@/types/events';
 import { ApplicationList } from '@/types/applications';
 import { Button } from '@/components/ui/button';
@@ -6,11 +5,13 @@ import { Pencil } from 'lucide-react';
 import Link from 'next/link';
 import { ApplicationsTable } from '@/components/applications-table';
 import { formatDateTime } from '@/lib/utils';
+import { getEventAction } from '@/app/actions/events';
+import { getListApplicationsAction } from '@/app/actions/applications';
 
 export default async function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const event = (await api.events.get(parseInt(id))) as Event;
-  const applicationsData = (await api.applications.list()) as ApplicationList;
+  const event = (await getEventAction(parseInt(id))) as Event;
+  const applicationsData = (await getListApplicationsAction()) as ApplicationList;
 
   const eventApplications = applicationsData.applications.filter(
     (app) => app.event_id === event.id

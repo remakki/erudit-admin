@@ -53,7 +53,7 @@ export function RequestsTable({ requests }: { requests: Request[] }) {
 
   const handleStatusChange = async (id: number, status: StatusRequest) => {
     try {
-      const result = await updateRequestAction(id, status);
+      const result = await updateRequestAction(id, { status });
       if (result.success) {
         toast.success('Status updated successfully');
       } else {

@@ -1,4 +1,6 @@
 import { getAuthToken } from './auth';
+import { RequestPartialUpdate } from '@/types/requests';
+import { EventCreate } from '@/types/events';
 
 const API_BASE_URL = process.env.API_BASE_URL || '';
 
@@ -33,9 +35,9 @@ export const api = {
   events: {
     list: (actual?: boolean) => fetchWithAuth(`/api/v1/events${actual ? '?actual=true' : ''}`),
     get: (id: number) => fetchWithAuth(`/api/v1/events/${id}`),
-    create: (data: any) =>
+    create: (data: EventCreate) =>
       fetchWithAuth('/api/v1/events', { method: 'POST', body: JSON.stringify(data) }),
-    update: (id: number, data: any) =>
+    update: (id: number, data: EventCreate) =>
       fetchWithAuth(`/api/v1/events/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
     delete: (id: number) => fetchWithAuth(`/api/v1/events/${id}`, { method: 'DELETE' }),
   },
@@ -49,7 +51,7 @@ export const api = {
   // Requests
   requests: {
     list: () => fetchWithAuth('/api/v1/requests'),
-    update: (id: number, data: any) =>
+    update: (id: number, data: RequestPartialUpdate) =>
       fetchWithAuth(`/api/v1/requests/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
     delete: (id: number) => fetchWithAuth(`/api/v1/requests/${id}`, { method: 'DELETE' }),
   },

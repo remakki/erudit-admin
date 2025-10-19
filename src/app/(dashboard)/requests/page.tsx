@@ -1,9 +1,9 @@
-import { api } from '@/lib/api-client';
 import { RequestList } from '@/types/requests';
 import { RequestsTable } from '@/components/requests-table';
+import { getListRequestsAction } from '@/app/actions/requests';
 
 export default async function RequestsPage() {
-  const data = (await api.requests.list()) as RequestList;
+  const data = (await getListRequestsAction()) as RequestList;
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4">

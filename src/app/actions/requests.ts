@@ -2,6 +2,7 @@
 
 import { api } from '@/lib/api-client';
 import { revalidatePath } from 'next/cache';
+import { RequestPartialUpdate } from '@/types/requests';
 
 export async function getListRequestsAction() {
   try {
@@ -11,7 +12,7 @@ export async function getListRequestsAction() {
   }
 }
 
-export async function updateRequestAction(id: number, data: any) {
+export async function updateRequestAction(id: number, data: RequestPartialUpdate) {
   try {
     await api.requests.update(id, data);
     revalidatePath('/requests');

@@ -1,16 +1,17 @@
-import { DataTable } from '@/components/data-table';
+import { api } from '@/lib/api-client';
+import { RequestList } from '@/types/requests';
+import { RequestsTable } from '@/components/requests-table';
 
-import data from '../data.json';
+export default async function RequestsPage() {
+  const data = (await api.requests.list()) as RequestList;
 
-
-export default function RequestsPage() {
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="@container/main flex flex-1 flex-col gap-2">
-        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <DataTable data={data} />
-        </div>
+    <div className="flex flex-1 flex-col gap-4 p-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Заявки</h1>
       </div>
+
+      <RequestsTable requests={data.requests} />
     </div>
   );
 }

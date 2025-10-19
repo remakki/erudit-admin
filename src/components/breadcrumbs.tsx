@@ -19,7 +19,9 @@ export function Breadcrumbs() {
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/" className='text-base'>Home</BreadcrumbLink>
+          <BreadcrumbLink href="/" className="text-base">
+            Home
+          </BreadcrumbLink>
         </BreadcrumbItem>
 
         {parts.map((part, idx) => {

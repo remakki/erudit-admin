@@ -1,20 +1,67 @@
-import { DataTable } from '@/components/data-table';
-import { SectionCards } from '@/components/section-cards';
+import { api } from '@/lib/api-client';
+import { EventList } from '@/types/events';
+import { RequestList } from '@/types/requests';
+import { ApplicationList } from '@/types/applications';
+import { Calendar, Mail, Users } from 'lucide-react';
+import Link from 'next/link';
 
-import data from './data.json';
-import { ChartAreaInteractive } from '@/components/chart-area-interactive';
+export default async function DashboardPage() {
+  const [eventsData, requestsData, applicationsData] = await Promise.all([
+    api.events.list().catch(() => ({ events: [] })) as Promise<EventList>,
+    api.requests.list().catch(() => ({ requests: [] })) as Promise<RequestList>,
+    api.applications.list().catch(() => ({ applications: [] })) as Promise<ApplicationList>,
+  ]);
 
-export default function Page() {
+  const stats = [
+    {
+      title: 'Количество событий',
+      value: eventsData.events.length,
+      icon: Calendar,
+      href: '/events',
+      color: 'bg-blue-500',
+    },
+    {
+      title: 'Количество заявок на игры',
+      value: applicationsData.applications.length,
+      icon: Users,
+      href: '/events',
+      color: 'bg-green-500',
+    },
+    {
+      title: 'Количество запросов',
+      value: requestsData.requests.length,
+      icon: Mail,
+      href: '/requests',
+      color: 'bg-purple-500',
+    },
+  ];
+
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="@container/main flex flex-1 flex-col gap-2">
-        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <SectionCards />
-          <div className="px-4 lg:px-6">
-            <ChartAreaInteractive />
-          </div>
-          {/* <DataTable data={data} /> */}
-        </div>
+    <div className="flex flex-1 flex-col gap-4 p-4">
+      <div className="grid gap-4 md:grid-cols-3">
+        {stats.map((stat) => (
+          <Link key={stat.title} href={stat.href}>
+            <div className="rounded-lg border bg-card p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+              <div className="flex items-center gap-4">
+                <div className={`${stat.color} p-3 rounded-lg`}>
+                  <stat.icon className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">{stat.title}</p>
+                  <p className="text-2xl font-bold">{stat.value}</p>
+                </div>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="rounded-lg border bg-card p-6">
+        <h2 className="text-xl font-semibold mb-4">Активность</h2>
+        <p className="text-muted-foreground">
+          Добро пожаловать в Админ Панель ЭрудитПати. Используйте навигационное меня слево для
+          перехода между разделами.
+        </p>
       </div>
     </div>
   );

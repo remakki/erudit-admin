@@ -1,40 +1,39 @@
 'use client';
 
 import * as React from 'react';
-import {
-  IconListDetails,
-  IconCalendar
-} from '@tabler/icons-react';
+import { IconCalendar, IconHomeBolt, IconListDetails } from '@tabler/icons-react';
 
 import { NavMain } from '@/components/nav-main';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-} from '@/components/ui/sidebar';
-import { User } from '@/lib/auth';
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
 import { Button } from './ui/button';
 import { LogOut } from 'lucide-react';
 import { logoutAction } from '@/app/actions/auth';
+import { User } from '@/types/auth';
 
 const data = {
   navMain: [
     {
-      title: 'Events',
+      title: 'Домашняя страница',
+      url: '/',
+      icon: IconHomeBolt,
+    },
+    {
+      title: 'События',
       url: '/events',
       icon: IconCalendar,
     },
     {
-      title: 'Requests',
+      title: 'Запросы',
       url: '/requests',
       icon: IconListDetails,
     },
   ],
-  
 };
 
-export function AppSidebar({ currentUser, ...props }: React.ComponentProps<typeof Sidebar > & { currentUser: User }) {
+export function AppSidebar({
+  currentUser,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { currentUser: User }) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>

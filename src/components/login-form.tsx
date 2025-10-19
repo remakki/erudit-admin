@@ -22,13 +22,11 @@ export default function LoginForm() {
       password: formData.get('password') as string,
     };
 
-    try {
-      await loginAction(credentials);
-      console.log('Login successful');
-    } catch (err) {
-      console.error(err);
+    const result = await loginAction(credentials);
+
+    if (result?.error) {
       toast.error('При входе произошла ошибка. Попробуйте еще раз!');
-    } finally {
+      console.log(result.error);
       setLoading(false);
     }
   }

@@ -1,25 +1,7 @@
 import { cookies } from 'next/headers';
+import { AuthResponse, LoginCredentials, TokenPayload, User } from '@/types/auth';
 
-export interface User {
-  id: number;
-  username: string;
-}
-
-interface TokenPayload {
-  id: number;
-  username: string;
-  exp: number;
-}
-
-export interface LoginCredentials {
-  username: string;
-  password: string;
-}
-
-export interface AuthResponse {
-  access_token: string;
-  token_type: string;
-}
+const AUTH_COOKIE_NAME = process.env.AUTH_COOKIE_NAME!;
 
 export async function login(credentials: LoginCredentials): Promise<AuthResponse> {
   const response = await fetch(`${process.env.API_BASE_URL}/api/v1/auth/login`, {
@@ -40,7 +22,7 @@ export async function login(credentials: LoginCredentials): Promise<AuthResponse
 
 export async function setAuthCookie(token: string) {
   const cookieStore = await cookies();
-  cookieStore.set('auth-token', token, {
+  cookieStore.set(AUTH_COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
@@ -51,12 +33,12 @@ export async function setAuthCookie(token: string) {
 
 export async function removeAuthCookie() {
   const cookieStore = await cookies();
-  cookieStore.delete('auth-token');
+  cookieStore.delete(AUTH_COOKIE_NAME);
 }
 
 export async function getAuthToken(): Promise<string | undefined> {
   const cookieStore = await cookies();
-  return cookieStore.get('auth-token')?.value;
+  return cookieStore.get(AUTH_COOKIE_NAME)?.value;
 }
 
 function checkTokenExpiry(exp: number): boolean {

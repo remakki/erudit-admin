@@ -1,35 +1,26 @@
-import { DataTable } from '@/components/data-table';
+import { EventList } from '@/types/events';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+import { EventsTable } from '@/components/events-table';
+import { getListEventsAction } from '@/app/actions/events';
 
-import data from '../data.json';
-import { Event } from '@/types/event';
-
-export default function EventsPage() {
-  const events: Event[] = [
-    {
-      id: 1,
-      number: 101,
-      title: 'Эрудит-пати',
-      description: 'Интеллектуальная викторина',
-      datetime_event: '2025-09-20T18:00:00',
-      registration_start: '2025-09-01T00:00:00',
-      registration_end: '2025-09-19T23:59:59',
-      duration: 120,
-      location: 'Москва, ул. Пушкина',
-      format: 'classic',
-      price: 500,
-      theme: 'История',
-      max_teams: 20,
-      image_url: null,
-    },
-  ];
+export default async function EventsPage() {
+  const data = (await getListEventsAction()) as EventList;
 
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="@container/main flex flex-1 flex-col gap-2">
-        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <DataTable data={data} />
-        </div>
+    <div className="flex flex-1 flex-col gap-4 p-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">События</h1>
+        <Link href="/events/new">
+          <Button>
+            <Plus className="mr-2 h-4 w-4" />
+            Новое событие
+          </Button>
+        </Link>
       </div>
+
+      <EventsTable events={data.events} />
     </div>
   );
 }

@@ -26,17 +26,6 @@ export function utcToLocalDateTime(utcDateTime: string): string {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 }
 
-export function formatDate(dateString: string, options?: Intl.DateTimeFormatOptions): string {
-  const defaultOptions: Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    ...options,
-  };
-
-  return new Date(dateString).toLocaleDateString('ru-RU', defaultOptions);
-}
-
 export function formatDateTime(dateString: string): string {
   return new Date(dateString).toLocaleString('ru-RU', {
     year: 'numeric',
@@ -52,13 +41,6 @@ export function formatDateShort(dateString: string): string {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
-  });
-}
-
-export function formatTime(dateString: string): string {
-  return new Date(dateString).toLocaleTimeString('ru-RU', {
-    hour: '2-digit',
-    minute: '2-digit',
   });
 }
 

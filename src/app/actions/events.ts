@@ -22,6 +22,9 @@ export async function createEventAction(data: EventCreate) {
   try {
     const utcData = {
       ...data,
+      image_url: data.image_url
+        ? data.image_url
+        : 'https://i.pinimg.com/736x/a9/7f/b6/a97fb6e3e6b9c41fda45bf13ce16982a.jpg',
       datetime_event: localDateTimeToUTC(data.datetime_event),
       registration_start: localDateTimeToUTC(data.registration_start),
       registration_end: localDateTimeToUTC(data.registration_end),
@@ -42,6 +45,9 @@ export async function updateEventAction(id: number, data: EventCreate) {
   try {
     const utcData = {
       ...data,
+      image_url: data.image_url
+        ? data.image_url
+        : 'https://i.pinimg.com/736x/a9/7f/b6/a97fb6e3e6b9c41fda45bf13ce16982a.jpg',
       datetime_event: localDateTimeToUTC(data.datetime_event),
       registration_start: localDateTimeToUTC(data.registration_start),
       registration_end: localDateTimeToUTC(data.registration_end),

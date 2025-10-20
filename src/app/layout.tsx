@@ -1,12 +1,17 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Slide, ToastContainer } from 'react-toastify';
+import { Metadata } from 'next';
 
 const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin', 'cyrillic'],
   weight: ['300', '400', '500', '600', '700', '900'],
 });
+
+export const metadata: Metadata = {
+  title: 'ЭрудитПати Админ панель',
+};
 
 export default function RootLayout({
   children,
